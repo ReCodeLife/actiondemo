@@ -15,13 +15,16 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+      run: | 
+        docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+        docker save my-image-name:$(date +%s) -o ${{ github.workspace }}/centos7.tar
+
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v3.1.2
       with:
         # Artifact name
         name: my-artifact
         # A file, directory or wildcard pattern that describes what to upload
-        path: ${{ github.workspace }}/h.txt
+        path: ${{ github.workspace }}/centos7.tar
         # The desired behavior if no files are found using the provided path.
 
